@@ -9,7 +9,7 @@ def getCoords(city):
     """Returns the Lat/Long of a city using openstreetmap"""
     headers={'user-agent':'my-app/0.0.1'}
     urlcoords=f"https://nominatim.openstreetmap.org/search?q={city}&format=json"
-    data=requests.get(urlcoords,headers=headers).json()
+    data=requests.get(urlcoords,headers=headers,timeout=10).json()
     if not data:
         return None
 
@@ -39,7 +39,7 @@ def check_or_load(filename,function):
 def extract_weather(latitude,longitude):
     """Fetches daily weather forecast from Open-Meteo."""
     url=f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_sum"
-    response=requests.get(url).json()
+    response=requests.get(url,timeout=10).json()
     return response
 
 def transform_weather(data,cityname):
